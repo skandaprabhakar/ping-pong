@@ -1,22 +1,43 @@
 import pygame
+from dataclasses import dataclass
 
+@dataclass
 class Paddle:
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.speed = 7
+    x: int
+    y: int
+    width: int
+    height: int
+    speed: float
+    rect: pygame.Rect = None
 
-    def move(self, dy, screen_height):
-        self.y += dy
-        self.y = max(0, min(self.y, screen_height - self.height))
+    def __post_init__(self):
+        self.rect = pygame.Rect(int(self.x), int(self.y), self.width, self.height)
 
-    def rect(self):
-        return pygame.Rect(self.x, self.y, self.width, self.height)
+    def move_ip(self, dx=0, dy=0):
+        self.rect.x += int(dx)
+        self.rect.y += int(dy)
 
-    def auto_track(self, ball, screen_height):
-        if ball.y < self.y:
-            self.move(-self.speed, screen_height)
-        elif ball.y > self.y + self.height:
-            self.move(self.speed, screen_height)
+    def update_player(self, dy, screen_rect):
+        # dy is a delta movement (could be -speed or +speed)
+        self.rect.y += int(dy)
+        # Clamp to screen
+        if self.rect.top < screen_rect.top:
+            self.rect.top = screen_rect.top
+        if self.rect.bottom > screen_rect.bottom:
+            self.rect.bottom = screen_rect.bottom
+
+    def update_ai(self, ball, screen_rect):
+        # Simple AI: move toward ball center, limit by speed
+        if ball.rect.centery > self.rect.centery + 5:
+            self.rect.y += int(self.speed)
+        elif ball.rect.centery < self.rect.centery - 5:
+            self.rect.y -= int(self.speed)
+
+        # Clamp
+        if self.rect.top < screen_rect.top:
+            self.rect.top = screen_rect.top
+        if self.rect.bottom > screen_rect.bottom:
+            self.rect.bottom = screen_rect.bottom
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, (255, 255, 255), self.rect)
