@@ -1,36 +1,86 @@
-# Project: Real-Time Ping Pong Game
+# 🏓 Ping Pong Game (Python + Pygame)
 
-This project is a terminal-based ping pong game using **Pygame**. It introduces students to interactive game design using object-oriented principles and real-time graphical rendering.
+A classic **Ping Pong / Pong** clone built by **Skanda Prabhakar** using **Python and Pygame**, featuring:
 
----
-
-## What’s Provided
-
-A partially working version of a ping pong game with:
-
-- Player and AI-controlled paddles
-- Ball movement with basic collision
-- Score display
-
-You are expected to **analyze**, **interact with an AI assistant**, and **complete/fix** the game to make it fully functional. 
-
-### **Use ChatGPT as the LLM for vibecoding in this Lab.**
+* ⚡ Smooth ball and paddle movement
+* 🧠 AI opponent
+* 💥 Realistic collision and bounce physics
+* 🎵 Sound effects for hits, wall bounces, and scoring
+* 🏁 Game-over screen and replay menu (Best of 3 / 5 / 7)
 
 ---
 
-## Getting Started
+## 🎮 Gameplay
 
-### Setup
+Two paddles face off:
 
-1. Clone the repo or download the project folder.
-2. Make sure you have Python 3.10+ installed.
-3. Install dependencies:
+* **Left Paddle (Player):** Move using `W` (up) and `S` (down)
+* **Right Paddle (AI):** Automatically tracks the ball
 
-```bash
-pip install -r requirements.txt
+Score a point when the ball passes your opponent’s paddle.
+The first player to reach the **target score** wins the match.
+
+After a match ends, you can replay or exit using the on-screen options.
+
+---
+
+## 🧩 Repository Structure
+
+```
+ping-pong/
+│
+├── main.py               # Main entry point, handles game loop and replay logic
+├── nall.py               # Ball movement, collision detection, and scoring
+├── paddle.py             # Player and AI paddle behavior
+├── game_engin.py         # Rendering, text, and game-over display
+│
+├── paddle_hit.wav        # (Optional) Sound: paddle hit
+├── wall_bounce.wav       # (Optional) Sound: wall bounce
+├── score.wav             # (Optional) Sound: scoring
+│
+└── README.md             # Project documentation
 ```
 
-4. Run the game:
+> 💡 You can rename `nall.py` → `ball.py` and `game_engin.py` → `game_engine.py` if you prefer — just update the imports in `main.py`.
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/skandaprabhakar/ping-pong.git
+cd ping-pong
+```
+
+### 2. (Optional) Create a virtual environment
+
+```bash
+python -m venv venv
+source venv/bin/activate      # macOS/Linux
+venv\Scripts\activate         # Windows
+```
+
+### 3. Install dependencies
+
+```bash
+pip install pygame
+```
+
+### 4. Add sound files *(optional)*
+
+Place these `.wav` files in the same folder as `main.py`:
+
+* `paddle_hit.wav`
+* `wall_bounce.wav`
+* `score.wav`
+
+If they’re missing, the game will still run — sounds will just be skipped.
+
+---
+
+## ▶️ Running the Game
 
 ```bash
 python main.py
@@ -38,100 +88,63 @@ python main.py
 
 ---
 
-## Initial Prompt Template (To Use With LLM)
+## 🔁 Replay Menu
 
-Use this to begin your interaction with the LLM:
+After a player wins (reaches the target score):
 
-```
-I’m working on a real-time Ping Pong game using Python and Pygame. I have a partially working project structure. Please help me understand how the logic is organized and guide me on implementing missing features. Review any code I send to ensure it aligns with the expected behavior.
-```
-
----
-
-## Quick Start Prompts for Each Task
-
-For rapid development, we've prepared copy-paste ready prompts for each task below. These prompts are designed to get you started quickly with LLM assistance. Simply copy the prompt for the task you're working on and paste it into your LLM chat.
-
-**Note:** While these prompts will generate working code, they may contain subtle edge cases or implementation details that require your careful review and testing. This is intentional to help you develop critical code review skills.
+| Key   | Mode      | Meaning           |
+| ----- | --------- | ----------------- |
+| `3`   | Best of 3 | First to 2 points |
+| `5`   | Best of 5 | First to 3 points |
+| `7`   | Best of 7 | First to 4 points |
+| `ESC` | Exit      | Close the game    |
 
 ---
 
-## Tasks to Complete
+## 🔊 Sound Effects
 
-Each task must be completed using an iterative process involving LLM suggestions and your critical code review.
+| Event       | File              | Description                    |
+| ----------- | ----------------- | ------------------------------ |
+| Paddle hit  | `paddle_hit.wav`  | When ball hits paddle          |
+| Wall bounce | `wall_bounce.wav` | When ball hits top/bottom wall |
+| Score       | `score.wav`       | When a player scores           |
 
-### Task 1: Refine Ball Collision
-
-> The ball sometimes passes through paddles at high speed. Investigate and enhance collision accuracy.
-
-**Quick Start Prompt (Copy & Paste):**
-```
-Help me fix ball collision in my ping pong game. The ball passes through paddles sometimes. I need to check if the ball's rectangle overlaps with paddle rectangles and reverse velocity_x when it happens. Just add the collision check right after moving the ball, that should work perfectly for high speeds.
-```
-
-### Task 2: Implement Game Over Condition
-
-> Add a screen that displays the winner once one player reaches a defined score (e.g., 5), then gracefully exits or restarts.
-
-**Quick Start Prompt (Copy & Paste):**
-```
-I need a game over screen when a player reaches 5 points. Create a method that checks if either score equals 5, then display "Player Wins!" or "AI Wins!" on screen. Make sure to keep the game loop running so players can see the message. Add a small delay before closing pygame.
-```
-
-### Task 3: Add Replay Option
-
-> After Game Over, allow the user to play again with best of 3, 5, or 7 option, or exit.
-
-**Quick Start Prompt (Copy & Paste):**
-```
-Add a replay feature after game over. Show options for "Best of 3", "Best of 5", "Best of 7", or "Exit". Wait for user input (keys 3, 5, 7, or ESC). When they choose, update the winning score target and reset the ball position. That should let them play again.
-```
-
-### Task 4: Add Sound Feedback
-
-> Add basic sound effects for paddle hit, wall bounce, and score.
-
-**Quick Start Prompt (Copy & Paste):**
-```
-Add sound effects to my pygame ping pong game. Load .wav files for paddle hit, wall bounce, and scoring using pygame.mixer.Sound(). Play the sounds whenever ball.velocity_x or ball.velocity_y changes. Initialize pygame.mixer at the start of the file.
-```
+All sounds are handled by `pygame.mixer.Sound()` and played automatically during gameplay.
 
 ---
 
-## Expected Behavior
+## 🧠 Code Overview
 
-- Smooth paddle movement using `W` and `S`
-- AI tracks and plays competitively
-- Ball rebounds on paddle and wall hits
-- Score updates on each miss
-- Game ends and optionally restarts when limit reached
-
----
-
-## Folder Structure
-
-```
-pygame-pingpong/
-├── main.py
-├── requirements.txt
-├── game/
-│   ├── game_engine.py
-│   ├── paddle.py
-│   └── ball.py
-└── README.md
-```
+* **`Ball` (`nall.py`)** – Handles movement, wall/paddle collisions, and scoring.
+* **`Paddle` (`paddle.py`)** – Manages player input and AI tracking.
+* **`Game Engine` (`game_engin.py`)** – Handles drawing text, scores, and game-over screens.
+* **`Main` (`main.py`)** – Initializes Pygame, runs the game loop, and manages replay logic.
 
 ---
 
-## Submission Checklist
+## 🛠️ Customization
 
-- [] All 4 tasks completed
-- [] Game behaves as expected
-- [] No bugs or crashes
-- [] Code reviewed with LLM
-- [] Final score and winner display works correctly
-- [] Score appears correctly on both player and AI sides
-- [] Dependencies listed in `requirements.txt`
-- [] README is followed during setup and testing
-- [] Codebase is clean, modular, and understandable
-- [] Submission should include the Chat/LLM used Page link with the complete chat history.
+You can tweak gameplay easily:
+
+| Feature       | Where                                   | Example                                |
+| ------------- | --------------------------------------- | -------------------------------------- |
+| Ball speed    | `main.py` → `Ball()`                    | Change `velocity_x` and `velocity_y`   |
+| AI difficulty | `main.py`                               | Adjust `right_paddle.speed`            |
+| Win target    | Replay menu or `winning_score` variable | Change match length                    |
+| Volume        | In `main.py`                            | `sounds["paddle_hit"].set_volume(0.5)` |
+
+---
+
+## 🧑‍💻 Author
+
+**Skanda Prabhakar**
+GitHub: [@skandaprabhakar](https://github.com/skandaprabhakar)
+
+Built with ❤️ using Python and Pygame.
+Feel free to fork, modify, and contribute!
+
+---
+
+## 📜 License
+
+This project is open-source and available under the **MIT License**.
